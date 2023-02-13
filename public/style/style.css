@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background: #131318;
+}
+
+.container {
+  margin-top: 100px;
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 30% 60%;
+  grid-column-gap:20px ;
+  justify-self:center;
+}
+
+h3{
+  background-color: rgb(27, 85, 160);
+  color: #f7f6ff;
+  border-bottom: 2px solid #cfced7;
+  width: auto;
+  text-align: center;
+  height: 25px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.show{
+  border-left: 3px solid #fff;
+}
+
+.contact-form{
+  margin-left: 150px;
+}
+
+
+/* Start Section */
+section{
+  padding: 100px 10%;
+}
+.home{
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  background: url(img/back8.jpg);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-gap: 4rem;
+}
+
+.contact-form form {
+  width: 550px;
+}
+.Text{
+  cursor: pointer;
+}
+textarea {
+  padding: 15px;
+  border-radius: 0.5rem;
+  width: 100%;
+  border: none;
+  outline: none;
+  background:#fff;
+  margin-bottom: 5px;
+  color: var(--text-color);
+}
+form input::placeholder,
+textarea::placeholder {
+  color: var(--text-color);
+}
+form textarea {
+  resize: none;
+  height: 200px;
+}
+
+.Enter{
+  background-color: #fff;
+  border-radius: 0.5rem;
+  margin-bottom: 5px;
+  height: 40px;
+  font-size: 15px;
+  padding: 10px;
+}
+
+select-list {
+    background: white;
+    background-color: white;
+}
+.fixed {
+    position: fixed;
+}
+.btn {
+    position: fixed;
+    height: 50px;
+    right: 30px;
+    width: 100px;
+    bottom: 10px;
+    line-height: 45px;
+    color: #dde1e5;
+    z-index: 9999;
+    font-size: 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    background: #044e01;
+}

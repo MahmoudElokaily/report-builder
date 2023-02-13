@@ -1,0 +1,11 @@
+{
+    "name": "mirage/reports",
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mirage\\Reports\\Providers\\ReportProvider"
+            ]
+        }
+    }
+}

@@ -5,6 +5,7 @@ namespace Mirage\Reports\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Mirage\Reports\Models\ReportBuilder;
+use Illuminate\Support\Collection;
 
 class ReportsController extends Controller{
 
@@ -35,6 +36,15 @@ class ReportsController extends Controller{
 //            "name" => "required_without:model",
 //            "model" => "required_without:name"
 //        ]);
+       $i = 0;
+       $where = [];
+       foreach ($request->filterField as $key => $value){
+           if ($request->filterValue[$i] != null) {
+               $where[] = [$request->filterField[$i], $request->filterOperation[$i], $request->filterValue[$i]];
+//                    $fields->where($request->filterField[$i] , $request->filterOperation[$i] , $request->filterValue[$i]);
+               $i++;
+           }
+       }
         if ($request->list != null){
             $report = ReportBuilder::create([
                 'slug' => $request->name == null ? $request->model : $request->name,
@@ -42,12 +52,11 @@ class ReportsController extends Controller{
                 "is_table" => "true",
             ]);
             if ($request->model == null) {
-                $fields = \DB::table($request->name)->limit(20)->get($request->list);
+                $fields = \DB::table($request->name)->limit(20)->where($where)->get($request->list);
             }
             else {
-                $fields = ReportBuilder::all($request->list);
+                $fields = ReportBuilder::all($request->list)->where($where);
             }
-
             $data = [
                 'title' => $request->name,
                 'fields' => $fields,
@@ -65,13 +74,10 @@ class ReportsController extends Controller{
             $chartData = '[';
             $labels = '[';
             if ($request->model == null) {
-                $result = \DB::select(\DB::raw("SELECT " . $request->field . " ,COUNT(*) as number FROM " . $request->name . " GROUP BY " . $request->field));
+                $result = \DB::table($request->name)->groupBy($request->field)->select(\DB::raw($request->field . ",COUNT(*) as number"))->where($where)->get();
             }
             else {
-                $result = $request->model::groupBy($request->field)->select($request->field, \DB::raw('count(*) as number'))->get();
-//                dd($result);
-//                $result = $request->model::groupBy(strval($request->field))->count($request->field);
-//                dd($result);
+                $result = $request->model::groupBy($request->field)->select($request->field, \DB::raw('count(*) as number'))->where($where)->get();
             }
             foreach ($result as $key) {
                 $chartData .= $key->number . " , ";
@@ -89,60 +95,7 @@ class ReportsController extends Controller{
                 'labels' => $labels
             ];
             return view('reports::charts', $data);
-
         }
-
    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    public function report(Request $request){
-//        $validate = $request->validate([
-//            "name" => "required",
-//        ]);
-//        ReportBuilder::create([
-//            'slug' => $request->name,
-//            'fields' => json_encode($request->list),
-//        ]);
-//        $fields = \DB::table($request->name)->limit(20)->get($request->list);
-//        $data = [
-//            'title' => $request->name,
-//            'fields' => $fields,
-//            'headers' => $request->list
-//        ];
-//        return view('reports::show-report' , $data);
-//    }
-//
-//    public function getTablesPie(){
-//        $tables = \DB::select("SHOW TABLES");
-//        return view('reports::tables' , compact('tables'));
-//    }
-//
-//    public function pieChar(Request $request){
-//        $filedName = $request->field;
-//        $result = \DB::select(\DB::raw("SELECT ". $request->field . " ,COUNT(*) as number FROM " . $request->name . " GROUP BY " .$request->field));
-//        $chartData = "";
-//        foreach ($result as $val){
-//            $chartData .= "['".$val->$filedName."',     ".$val->number."],";
-//        }
-//        $data = [
-//          'title' =>$request->name,
-//          'field' => $request->field,
-//          'chartData' => $chartData
-//        ];
-//        return view('reports::pie' , $data);
-//    }
-
 
 }

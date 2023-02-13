@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Okaily</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/album/">
 
@@ -49,7 +50,7 @@
             @csrf
             <input type="text" name="name" id="table-name" value="" hidden>
             <input type="text" name="model" id="model-name" value="" hidden>
-            <div class="container">
+            <div class="container mb-5">
                 <ul class="list-group item-checked">
                 </ul>
             </div>
@@ -65,6 +66,32 @@
                     </select>
                 </div>
             </div>
+            <div class="container mb-5 filter-form">
+                <div class="row" id="filter-data">
+                    <div class="plus-icon col-1">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </div>
+                    <?php $i=0; $j=0; $k=0; ?>
+                    <div class="select-filter col-3">
+                        <select class="form-select fields-options" aria-label="Default select example" name="filterField[]">
+                            <option selected>Choose Table first</option>
+                        </select>
+                </div>
+                    <div class="col-4">
+                        <select class="form-select" aria-label="Default select example" name="filterOperation[]">
+                            <option value="=">Equal</option>
+                            <option value=">=">Greater than</option>
+                            <option value="<=">Less than</option>
+                            <option value="!=">Not equal</option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <div class="input-group mb-3">
+                            <input type="text" placeholder="Value" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="filterValue[]">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button type="submit" class="btn btn-success btn-lg btn-block">Show</button>
         </form>
 
@@ -76,6 +103,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
+        var data;
         $(".c-report").on('click', function () {
             $(this).prop("disabled", true);
             $(".t-report").prop("disabled", false);
@@ -93,6 +121,7 @@
 
         $(".select-table").on('change', function () {
             $(".list-group").empty();
+            $(".fields-options").empty();
             var type = $('.c-report').is(':disabled') == false ? "checkbox" : "radio";
             var name = type == "checkbox" ? "list[]" : "field";
             var table = $('.select-table').val();
@@ -107,12 +136,14 @@
                     table: table,
                 },
                 success: function (data) {
+                    data = data;
                     $.each(data, function(i,item){
                         optionTemp = '';
                         optionTemp +=
-                        // $(".list-group").append(`  <div class="row"><div class="col"><label class="list-group-item"><input value="${item.Field}" class="form-check-input me-1" name="${name}" type="${type}">${item.Field}</label></div> <div class="col"><label class="list-group-item"><input type="checkbox" class="form-check-input me-1">Has Relation</label></div></div> `).trigger('change');
                         $(".list-group").append(` <label class="list-group-item"><input value="${item.Field}" class="form-check-input me-1" name="${name}" type="${type}">${item.Field}</label> `);
+                        $(".fields-options").append(` <option value="${item.Field}">${item.Field}</option> `);
                     }) ;
+
                 },
                 error: function (data) {
                     alert("error");
@@ -124,6 +155,7 @@
 
         $(".model-name").on('change', function () {
             $(".list-group").empty();
+            $(".fields-options").empty();
             var type = $('.c-report').is(':disabled') == false ? "checkbox" : "radio";
             var name = type == "checkbox" ? "list[]" : "field";
             var model = $('.model-name').val();
@@ -140,6 +172,9 @@
                 success: function (data) {
                     $.each(data, function(i,item){
                         $(".list-group").append(`  <label class="list-group-item"><input value="${item}" class="form-check-input me-1" name="${name}" type="${type}">${item}</label> `).trigger('change');
+                        $(".fields-options").append(` <option value="${item}">${item}</option> `);
+
+
                     }) ;
                 },
                 error: function (data) {
@@ -149,11 +184,8 @@
 
             });
         });
-
-        $(document).on("click" , ".checked" , function() {
-            console.log($(this).parent().parent())
-            alert($(this).parent())
-            $($(this).parent().parent()).find(".collapse").addClass("in show");
+        $(".plus-icon").on("click" , function (){
+            $("#filter-data").clone(true).appendTo(".filter-form");
         });
 </script>
 </body>

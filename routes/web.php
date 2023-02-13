@@ -1,9 +1,7 @@
 <?php
 
-<<<<<<< HEAD
 use App\Http\Controllers\DBController;
-=======
->>>>>>> 606fe89f5606256c658c5794a8bdae680632fea4
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-<<<<<<< HEAD
 //Route::get('/', function () {
 //    return view('welcome');
 //});
@@ -26,8 +23,7 @@ use Illuminate\Support\Facades\Route;
 //Route::post('report' , [DBController::class , 'report'])->name('make-report');
 
 
-=======
+
 Route::get('/', function () {
     return view('welcome');
 });
->>>>>>> 606fe89f5606256c658c5794a8bdae680632fea4

@@ -25,12 +25,9 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-<<<<<<< HEAD
             "Database\\Seeders\\": "database/seeders/",
-            "Mirage\\Reports\\" : "packages/mirage/reports/src"
-=======
+            "Mirage\\Reports\\" : "packages/mirage/reports/src",
             "Database\\Seeders\\": "database/seeders/"
->>>>>>> 606fe89f5606256c658c5794a8bdae680632fea4
         }
     },
     "autoload-dev": {

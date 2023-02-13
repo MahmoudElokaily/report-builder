@@ -196,10 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Spatie\Backup\BackupServiceProvider::class,
-<<<<<<< HEAD
         \Mirage\Reports\Providers\ReportProvider::class,
-=======
->>>>>>> 606fe89f5606256c658c5794a8bdae680632fea4
 
     ],
 
